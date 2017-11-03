@@ -1,0 +1,14 @@
+{
+  "name": "aws-bootcamp-nodejs",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+  },
+  "private": true,
+  "dependencies": {
+    "hapi": "^16.6.2",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+  }
+}
