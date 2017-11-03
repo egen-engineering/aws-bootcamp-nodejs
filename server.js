@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const lodash = require('lodash');
+const uuidv4 = require('uuid/v4');
 const process = require('process');
 const server = new Hapi.Server();
 
@@ -17,19 +18,19 @@ server.start((err) => {
 
 let userArray = [
     {
-        "id": 1,
-        "firstName": "John",
-        "lastName": "Doel",
-        "email": "john.doe@email.com",
+        "id": uuidv4(),
+        "firstName": "Tony",
+        "lastName": "Stark",
+        "email": "ironman@starkenterprises.com",
         "address": {
-            "state": "IL"
+            "state": "NY"
         }
     },
     {
-        "id": 2,
-        "firstName": "Jane",
-        "lastName": "Smith",
-        "email": "jane.smith@someplace.com",
+        "id": uuidv4(),
+        "firstName": "Steve",
+        "lastName": "Rogers",
+        "email": "captain@aol.com",
         "address": {
             "state": "IL"
         }
@@ -40,9 +41,8 @@ let handlers = {
     create: function (request, reply) {
         let newUser = request.payload;
 
-        newUser.id = userArray.length + 1;
+        newUser.id = uuidv4();
         userArray.push(newUser);
-
         reply(userArray[userArray.length - 1]);
     },
 
@@ -55,7 +55,6 @@ let handlers = {
             lodash.assign(user, request.payload);
             reply(user);
         } else {
-
             reply({});
         }
     },
@@ -129,3 +128,7 @@ server.route([
         handler: handlers.deleteUser
     }
 ]);
+
+server.on('response', function (request) {
+    console.log( '[' + new Date() + ']  ' + request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.url.path + ' --> ' + request.response.statusCode);
+});
